@@ -3,14 +3,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def plt_network(cities, labels, beta_matrix, node_size_vector, node_fill_percentage_vector):
+def plt_network(cities, beta_matrix, node_size_vector, node_fill_percentage_vector):
 
     # Create a directed graph from the adjacency matrix
     G = nx.DiGraph()
     
     # Add nodes to the graph with labels and size
-    for city, label, node_size, fill_percentage in zip(cities, labels, node_size_vector, node_fill_percentage_vector):
-        G.add_node(city, label=label, node_size=node_size, fill_percentage=fill_percentage)
+    for city, node_size, fill_percentage in zip(cities, node_size_vector, node_fill_percentage_vector):
+        G.add_node(city, node_size=node_size, fill_percentage=fill_percentage)
     
     # Add weighted edges to the graph
     for i in range(len(cities)):
@@ -21,7 +21,7 @@ def plt_network(cities, labels, beta_matrix, node_size_vector, node_fill_percent
                     G.add_edge(cities[i], cities[j], weight=weight)
     
     # Plot the directed graph
-    pos = nx.spring_layout(G, seed=42)  # You can choose a different layout if you prefer
+    pos = nx.planar_layout(G)  # You can choose a different layout if you prefer
     edge_labels = nx.get_edge_attributes(G, 'weight')
     
     # Plot edges with varying thickness based on weights
@@ -49,21 +49,19 @@ def plt_network(cities, labels, beta_matrix, node_size_vector, node_fill_percent
 
 
 
-# Define the cities and their labels
-cities = ["City1", "City2", "City3", "City4", "City5"]
-labels = [1, 2, 3, 4, 5]
 
 # Define the adjacency matrix with weights
-beta_matrix = [
-    [1,  7.5,   3, 20, 0],
-    [4,    1,   2, 0,  0],
-    [0,    2,   1, 0, 40],
-    [0.25, 0,   0, 1, 50],
-    [0,    0, 1.2, 0, 1]
-]
+beta_matrix = np.round( [
+    [1, 0.0, 0.0, 0.0], 
+    [0.016, 1, 0.0, 0.0], 
+    [0.1575, 0.0, 1, 7.5], 
+    [0.0, 0.0, 1.7777777777777777, 1]
+],2)
 
 # Supply vectors for node size and node colors (with percentages)
-N = [200, 300, 150, 250, 180]  # Modify these values as needed
-r = [0.2, 0.4, 0.6, 0.8, 0.1]  # Modify these values as needed
+N = [1000, 200, 150, 100]  # Modify these values as needed
+r = [0.5999483812470671, 0.02616053587183521, 0.8032915172981273, 0.6044655869426754]
 
-plt_network(cities, labels, beta_matrix, N, r)
+# Define the cities and their labels
+cities = ["1", "2", "3", "4"]
+plt_network(cities, beta_matrix, N, r)
