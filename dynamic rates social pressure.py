@@ -29,9 +29,10 @@ t_eval = np.linspace(t_span[0], t_span[1], 1000)
 
 solution_time = solve_ivp(system_time, t_span, [r1_0, r2_0], t_eval=t_eval)
 
-plt.plot(solution_time.t, solution_time.y[0], label='r1(t) - time-dependent rates', linestyle='-')
-plt.plot(solution_time.t, solution_time.y[1], label='r2(t) - time-dependent rates', linestyle='-')
+plt.plot(solution_time.t, solution_time.y[0], label='r1(t) - social pressure rates', linestyle='-')
+plt.plot(solution_time.t, solution_time.y[1], label='r2(t) - social pressure rates', linestyle='-')
 plt.xlabel('Zeit t')
 plt.ylabel('Lösungen r1 und r2')
 plt.legend()
+plt.grid(True)
 plt.show()
